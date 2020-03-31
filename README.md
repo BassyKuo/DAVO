@@ -78,7 +78,7 @@ Note that `${version}` can be selected from the following list (optional options
 
 ### Architecture version:
 
-<img src="./_github/figures/DAVO-arch.png" width="680">
+<img src="./doc/figures/DAVO-arch.png" width="680">
 
 | Version                   | Description                                              |
 | ------------------------- | -------------------------------------------------------- |
