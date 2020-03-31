@@ -25,7 +25,7 @@ flags.DEFINE_integer("img_height", 128, "Image height")
 flags.DEFINE_integer("img_width", 416, "Image width")
 flags.DEFINE_integer("seq_length", 3, "Sequence length for each example")
 flags.DEFINE_integer("test_seq", 9, "Sequence id to test")
-flags.DEFINE_string("dataset_dir", None, "Raw odometry dataset directory")
+#flags.DEFINE_string("dataset_dir", None, "Raw odometry dataset directory")
 flags.DEFINE_string("concat_img_dir", None, "Preprocess image dataset directory")
 flags.DEFINE_string("output_dir", None, "Output directory")
 flags.DEFINE_string("ckpt_file", None, "checkpoint file")
@@ -90,9 +90,9 @@ def main():
     N = len(glob(concat_img_dir + '/*.jpg')) + 2*max_src_offset
     test_frames = ['%.2d %.6d' % (FLAGS.test_seq, n) for n in range(N)]
 
-    with open(FLAGS.dataset_dir + 'sequences/%.2d/times.txt' % FLAGS.test_seq, 'r') as f:
-        times = f.readlines()
-    times = np.array([float(s[:-1]) for s in times])
+    #with open(FLAGS.dataset_dir + 'sequences/%.2d/times.txt' % FLAGS.test_seq, 'r') as f:
+        #times = f.readlines()
+    #times = np.array([float(s[:-1]) for s in times])
 
     config = tf.ConfigProto()
     config.gpu_options.allow_growth = True
@@ -392,7 +392,7 @@ def main():
 
                 # Insert the target pose [0, 0, 0, 0, 0, 0] to the middle
                 pred_poses = np.insert(pred_poses, max_src_offset, np.zeros((1,6)), axis=0)     # pred_poses.shape=[3,6]
-                curr_times = times[tgt_idx-max_src_offset : tgt_idx+max_src_offset+1]
+                #curr_times = times[tgt_idx-max_src_offset : tgt_idx+max_src_offset+1]
                 out_file = os.path.join(FLAGS.output_dir, '%.6d.txt' % (tgt_idx - max_src_offset))
 
                 # Output 6DoF file

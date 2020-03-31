@@ -30,12 +30,11 @@ ckpt_file="$CKPT_FOLDER/$model_name"
 output_dir="./$TEST_FOLDER/$output_subdir/${save_model_name}--$model_name"
 
 test -f ${ckpt_file}.index || exit 1
-test -f ${output_dir}/${i}/${i}-pred_kitti_pose.txt && exit 1
 
 echo "Call $model_name >>>"
 echo "Processing ... $seq"
-python test_kitti_pose.py    --test_seq $seq    --dataset_dir ./kitti_odom/    \
-    --output_dir ${output_dir}/${i}/    --ckpt_file ${ckpt_file}  --seq_length 3  --concat_img_dir ./kitti_odom-dump/   --batch_size 1 --version ${version}
+python test_kitti_pose.py    --test_seq $seq \
+    --output_dir ${output_dir}/    --ckpt_file ${ckpt_file}  --seq_length 3  --concat_img_dir ./kitti_odom-dump/   --batch_size 1 --version ${version}
 
 echo "Done."
 echo "Please check ${output_dir}"
