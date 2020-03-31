@@ -112,19 +112,19 @@ class DataLoader(object):
         else:
             flow_dataset = datasets[1]
 
-        if self.read_depth:
-            print ("Read Depth")
-            depth_names_ph = tf.placeholder(tf.string, shape=[None], name='depth_names_ph')
-            depth_dataset = tf.data.Dataset.from_tensor_slices( depth_names_ph ).map(_parse_input_depth, num_parallel_calls=4)
-        else:
-            depth_dataset = datasets[1]
-
         if self.read_seglabel:
             print ("Read SegLabel")
             seglabel_names_ph = tf.placeholder(tf.string, shape=[None], name='seglabel_names_ph')
             seglabel_dataset = tf.data.Dataset.from_tensor_slices( seglabel_names_ph ).map(_parse_input_seglabel, num_parallel_calls=4)
         else:
             seglabel_dataset = datasets[1]
+
+        if self.read_depth:
+            print ("Read Depth")
+            depth_names_ph = tf.placeholder(tf.string, shape=[None], name='depth_names_ph')
+            depth_dataset = tf.data.Dataset.from_tensor_slices( depth_names_ph ).map(_parse_input_depth, num_parallel_calls=4)
+        else:
+            depth_dataset = seglabel_dataset
 
         datasets = (datasets[0], datasets[1], pose_dataset, flow_dataset, depth_dataset, seglabel_dataset)
 
@@ -487,9 +487,6 @@ class DataLoader(object):
 
     def format_file_list(self, data_root, split):
         all_list = {}
-        # print (">>>>>>>>>>>>>> data_loader >>>>>>>>>>>>>>>>")
-        # print ("[!] Use: train.txt ")
-        # print (">>>>>>>>>>>>>> data_loader >>>>>>>>>>>>>>>>")
         with open(data_root + '/%s.txt' % split, 'r') as f:
             frames = f.readlines()
         subfolders = [x.split(' ')[0] for x in frames]
@@ -499,13 +496,8 @@ class DataLoader(object):
         cam_file_list = [os.path.join(data_root, subfolders[i], 
             frame_ids[i] + '_cam.txt') for i in range(len(frames))]
         flow_file_list = [os.path.join(data_root, subfolders[i], 
-            #frame_ids[i] + '-flow.npy') for i in range(len(frames))]
             frame_ids[i] + '-flownet2.npy') for i in range(len(frames))]
-            #frame_ids[i] + '-pwcflow.npy') for i in range(len(frames))]
-            #frame_ids[i] + '-pwcflow_dump.npy') for i in range(len(frames))]
         depth_file_list = [os.path.join(data_root, subfolders[i], 
-            #frame_ids[i] + '-depth.npy') for i in range(len(frames))]
-            #frame_ids[i] + '-monodepth2_disp.npy') for i in range(len(frames))]
             frame_ids[i] + '-monodepth2_depth.npy') for i in range(len(frames))]
         seglabel_file_list = [os.path.join(data_root, subfolders[i], 
             frame_ids[i] + '-seglabel.npy') for i in range(len(frames))]
