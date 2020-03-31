@@ -34,6 +34,45 @@ export CUDA_HOME="<your_cuda_path>"
 export LD_LIBRARY_PATH="$CUDA_HOME/lib64:$LD_LIBRARY_PATH"
 ```
 
+## Quickstart
+
+Use the following scripts to help you while you already setup the environment and dataset.
+
+#### Training
+```bash
+# Train model w/ flipping images.
+./run_training.sh v1-decay100k-sharedNN-dilatedPoseNN-cnv6_128-segmask_all-se_flow-abs_flow-fc_tanh
+
+# Train model w/ augmented images (including flipping, brightness, contrast, saturation, hue).
+./run_training.sh v1-decay100k-sharedNN-dilatedPoseNN-cnv6_128-segmask_all-se_flow-abs_flow-fc_tanh --data_aug
+```
+
+#### Inference
+```bash
+export ckpt_dir="ckpt_dir/v1-decay100k-sharedNN-dilatedPoseNN-cnv6_128-segmask_all-se_flow-abs_flow-fc_tanh/"
+export version="v1-decay100k-sharedNN-dilatedPoseNN-cnv6_128-segmask_all-se_flow-abs_flow-fc_tanh"
+export seq_name="03"
+export ckpt_step="1500000"
+export output_root="test_DAVO"
+
+# Run script to generate predicted poses of sequence ${seq_name}.
+./run_estimation.sh ${ckpt_dir} ${version} ${seq_name} ${ckpt_step} ${output_root}
+
+# The result would be saved in ${output_root}/${version}--model-${ckpt_step}
+```
+
+#### Evaluation
+```bash
+cd kitti_benchmark/
+
+export test_output_dir="../${output_root}/${version}--model-${ckpt_step}"
+export save_name="${version}--model-${ckpt_step}"
+
+# Use pose_kitti_eval.sh to run the KITTI Benchmark.
+./pose_kitti_eval.sh ${test_output_dir} ${save_name}
+```
+
+---
 
 ## Prepare Traing/Testing Data
 
