@@ -8,7 +8,7 @@ import tensorflow as tf
 import numpy as np
 from utils import geo_utils
 from glob import glob
-from dcvo import DCVO
+from davo import DAVO
 from data_loader import DataLoader
 from utils.common_utils import complete_batch_size, is_valid_sample
 from utils.seg_utils.labels import seg_labels
@@ -177,9 +177,9 @@ def main():
         pose_mat_tensor = geo_utils.pose_vec2mat(pose_vec_ph)
 
         # init system
-        system = DCVO(version=FLAGS.version)
+        system = DAVO(version=FLAGS.version)
         system.setup_inference(FLAGS.img_height, FLAGS.img_width,
-                               "dcvo", FLAGS.seq_length, FLAGS.batch_size, input_batch, input_flow=input_flow, input_depth=input_depth, input_seglabel=input_seglabel)
+                               "davo", FLAGS.seq_length, FLAGS.batch_size, input_batch, input_flow=input_flow, input_depth=input_depth, input_seglabel=input_seglabel)
         saver = tf.train.Saver([var for var in tf.trainable_variables()]) 
         #sess.run(tf.global_variables_initializer())
 
