@@ -1,4 +1,4 @@
-## Prepare Traing/Testing Data
+## Prepare Training/Testing Data
 
 There are three types of inputs used in DAVO:
 
