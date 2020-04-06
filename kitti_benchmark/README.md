@@ -64,12 +64,12 @@
 
 ## Source
 
-1. odometry benchmark: http://www.cvlibs.net/datasets/kitti/eval_odometry.php \[(downlaod)[https://s3.eu-central-1.amazonaws.com/avg-kitti/devkit_odometry.zip]\]
+1. odometry benchmark: http://www.cvlibs.net/datasets/kitti/eval_odometry.php \[[downlaod toolkit](https://s3.eu-central-1.amazonaws.com/avg-kitti/devkit_odometry.zip)\]
 2. pose ground truth: http://www.cvlibs.net/download.php?file=data_odometry_poses.zip
 
 
 
 ## Other tools
 
-1. (python tools)[https://github.com/utiasSTARS/pykitti]
-2. (matlab tools)[https://github.com/ambarpal/3d-hough/tree/master/code/kitti/devkit]
+1. [python tools](https://github.com/utiasSTARS/pykitti)
+2. [matlab tools](https://github.com/ambarpal/3d-hough/tree/master/code/kitti/devkit)
