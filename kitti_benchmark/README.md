@@ -64,7 +64,8 @@
 
 ## Source
 
-1. odometry benchmark: http://www.cvlibs.net/datasets/kitti/eval_odometry.php \[[downlaod toolkit](https://s3.eu-central-1.amazonaws.com/avg-kitti/devkit_odometry.zip)\]
+1. odometry benchmark: http://www.cvlibs.net/datasets/kitti/eval_odometry.php 
+###### :arrow_right: \[[download toolkit](https://s3.eu-central-1.amazonaws.com/avg-kitti/devkit_odometry.zip)\]
 2. pose ground truth: http://www.cvlibs.net/download.php?file=data_odometry_poses.zip
 
 
