@@ -1533,14 +1533,9 @@ class DAVO(object):
 
     def inference(self, sess, mode, inputs=None):
         fetches = {}
-        if mode == 'depth':
-            fetches['depth'] = self.pred_depth
         if mode == 'pose':
             fetches['pose'] = self.pred_poses
-        if mode == 'segatten':
-            fetches['pose'] = self.pred_poses
-            fetches['masks'] = self.masks
-        if mode == 'feature':
+        elif mode == 'feature':
             fetches['pose'] = self.pred_poses
             fetches['masks'] = self.masks
             fetches['features'] = self.features
