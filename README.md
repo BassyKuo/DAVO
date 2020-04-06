@@ -35,7 +35,7 @@ pip install -r requirements.txt
 
 #### (optional) 4. Use customized cuda path
 
-If you do not have CUDA 10.0, please download CUDA 10.0 toolkit from the official website or [here](https://developer.nvidia.com/cuda-10.0-download-archive), and set `$CUDA_HOME` to the path where you installed.
+If you do not have CUDA 10.0, please download CUDA 10.0 toolkit from the official website or [here](https://developer.nvidia.com/cuda-10.0-download-archive), and set the path where you installed to `$CUDA_HOME`.
 
 ```bash
 export CUDA_HOME="<your_cuda_path>"
@@ -73,7 +73,7 @@ export output_root="test_DAVO"
 # The result would be saved in ${output_root}/${version}--model-${ckpt_step}
 ```
 
-###### :arrow_right: Download the pretrained model from our [google drive](https://drive.google.com/drive/folders/1FMx7h4ngN4T2ee1XF-64G5vdmr1BOGfi?usp=sharing) to quickly start.
+###### :arrow_right: Download the pretrained model from our [google drive](https://drive.google.com/drive/folders/1FMx7h4ngN4T2ee1XF-64G5vdmr1BOGfi?usp=sharing) and set "pretrain-ckpt" to $ckpt_dir for quickly.
 
 #### Evaluation
 ```bash
