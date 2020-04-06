@@ -1,1 +1,0 @@
-../16-ORB-SLAM2-S.txt

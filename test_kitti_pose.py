@@ -25,7 +25,6 @@ flags.DEFINE_integer("img_height", 128, "Image height")
 flags.DEFINE_integer("img_width", 416, "Image width")
 flags.DEFINE_integer("seq_length", 3, "Sequence length for each example")
 flags.DEFINE_integer("test_seq", 9, "Sequence id to test")
-#flags.DEFINE_string("dataset_dir", None, "Raw odometry dataset directory")
 flags.DEFINE_string("concat_img_dir", None, "Preprocess image dataset directory")
 flags.DEFINE_string("output_dir", None, "Output directory")
 flags.DEFINE_string("ckpt_file", None, "checkpoint file")
@@ -48,12 +47,7 @@ def load_kitti_image_sequence_names(dataset_dir, frames, seq_length, load_pose=F
         curr_drive, curr_frame_id = frames[tgt_idx].split(' ')
         img_filename = os.path.join(dataset_dir, '%s/%s.jpg' % (curr_drive, curr_frame_id))
         img_posename = os.path.join(dataset_dir, '%s/%s_cam.txt' % (curr_drive, curr_frame_id))
-        #img_flowname = os.path.join(dataset_dir, '%s/%s-flow.npy' % (curr_drive, curr_frame_id))
         img_flowname = os.path.join(dataset_dir, '%s/%s-flownet2.npy' % (curr_drive, curr_frame_id)) # shape=(4,h,w,2)
-        #img_flowname = os.path.join(dataset_dir, '%s/%s-pwcflow.npy' % (curr_drive, curr_frame_id)) # shape=(4,h,w,2)
-        #img_flowname = os.path.join(dataset_dir, '%s/%s-pwcflow_dump.npy' % (curr_drive, curr_frame_id)) # shape=(4,h,w,2)
-        #img_depthname = os.path.join(dataset_dir, '%s/%s-depth.npy' % (curr_drive, curr_frame_id))
-        #img_depthname = os.path.join(dataset_dir, '%s/%s-monodepth2_disp.npy' % (curr_drive, curr_frame_id))
         img_depthname = os.path.join(dataset_dir, '%s/%s-monodepth2_depth.npy' % (curr_drive, curr_frame_id))
         img_seglabelname = os.path.join(dataset_dir, '%s/%s-seglabel.npy' % (curr_drive, curr_frame_id))
         image_sequence_names.append(img_filename)
@@ -70,7 +64,7 @@ def load_kitti_image_sequence_names(dataset_dir, frames, seq_length, load_pose=F
     if load_depth:
         depth = image_sequence_depths
     else:
-        depth = image_sequence_names
+        depth = image_sequence_seglabels
     if load_flow:
         flow = image_sequence_flows
     else:
@@ -90,17 +84,13 @@ def main():
     N = len(glob(concat_img_dir + '/*.jpg')) + 2*max_src_offset
     test_frames = ['%.2d %.6d' % (FLAGS.test_seq, n) for n in range(N)]
 
-    #with open(FLAGS.dataset_dir + 'sequences/%.2d/times.txt' % FLAGS.test_seq, 'r') as f:
-        #times = f.readlines()
-    #times = np.array([float(s[:-1]) for s in times])
-
     config = tf.ConfigProto()
     config.gpu_options.allow_growth = True
     with tf.Session(config=config) as sess:
         # setup input tensor
         read_flow = True
-        read_depth = True
         read_seglabel = True
+        read_depth = True if "depth" in self.version else False
         loader = DataLoader(FLAGS.concat_img_dir, FLAGS.batch_size, FLAGS.img_height, FLAGS.img_width, FLAGS.seq_length-1, read_flow=read_flow, read_depth=read_depth, read_seglabel=read_seglabel)
         image_sequence_names, tgt_inds, image_sequence_poses, image_sequence_flows, image_sequence_depths, image_sequence_seglabels = \
                 load_kitti_image_sequence_names(FLAGS.concat_img_dir, test_frames, FLAGS.seq_length, load_pose=True, load_flow=read_flow, load_depth=read_depth, load_seglabel=read_seglabel)
@@ -121,7 +111,6 @@ def main():
         input_seglabel = inputs_batch[4]
         input_batch.set_shape([FLAGS.batch_size, FLAGS.img_height, FLAGS.img_width * FLAGS.seq_length, 3])
         input_pose.set_shape([FLAGS.batch_size, FLAGS.seq_length, 6])
-        #input_flow.set_shape([FLAGS.batch_size, FLAGS.seq_length-1, FLAGS.img_height, FLAGS.img_width, 2])
         input_flow.set_shape([FLAGS.batch_size, (FLAGS.seq_length-1)*2, FLAGS.img_height, FLAGS.img_width, 2])
         input_depth.set_shape([FLAGS.batch_size, FLAGS.seq_length, FLAGS.img_height, FLAGS.img_width, 1])
         input_seglabel.set_shape([FLAGS.batch_size, FLAGS.seq_length, FLAGS.img_height, FLAGS.img_width, 1])
