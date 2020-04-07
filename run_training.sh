@@ -22,4 +22,16 @@ while : ; do
 done
 
 echo "ckpt_dir: ./ckpt/data_aug/${name}${with_data_aug}${with_data_flip}"
-python train.py --dataset_dir=./kitti_odom-dump/ --img_width=416 --img_height=128 --batch_size=4 --seq_length 3 --max_steps 1600000  --save_freq 100000 --summary_freq 25000 --learning_rate 0.001 --num_scales 1 --pose_weight 0.1 --checkpoint_dir ./ckpt/${name}${with_data_aug}${with_data_flip} ${with_data_aug} ${with_data_flip} --version ${version} #> ${name}${with_data_aug}${with_data_flip}.log
+python train.py \
+    --dataset_dir=./kitti_odom-dump/ \
+    --img_width=416 \
+    --img_height=128 \
+    --batch_size=4 \
+    --seq_length 3 \
+    --max_steps 1600000  \
+    --save_freq 100000 \
+    --summary_freq 25000 \
+    --learning_rate 0.001 \
+    --pose_weight 0.1 \
+    --checkpoint_dir ./ckpt/${name}${with_data_aug}${with_data_flip} ${with_data_aug} ${with_data_flip} \
+    --version ${version} #> ${name}${with_data_aug}${with_data_flip}.log
