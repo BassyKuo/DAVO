@@ -12,22 +12,22 @@ TEST_FOLDER=${5:-"test-DAVO"}           # directory where prediction files save 
 if [ "$#" -le 0 ] || [ "$#" -gt 6 ] ; then 
     echo "ERROR: illegal number of parameters."
     echo "[Command]"
-    echo "    ./run_estimation.sh <ckpt_dir> <version> <seq_name> <model_step> [<output_folder>] "
+    echo "    ./run_inference.sh <ckpt_dir> <version> <seq_name> <model_step> [<output_folder>] "
     echo ""
     echo "[Example]"
-    echo "    ./run_estimation.sh ckpt/data_aug/v1-decay100k-sharedNN-dilatedPoseNN-cnv6_128-segmask_all-se_flow-abs_flow-fc_tanh v1-decay100k-sharedNN-dilatedPoseNN-cnv6_128-segmask_all-se_flow-abs_flow-fc_tanh 05 1500000"
+    echo "    ./run_inference.sh ckpt/v1-decay100k-sharedNN-dilatedPoseNN-cnv6_128-segmask_all-se_flow-abs_flow-fc_tanh v1-decay100k-sharedNN-dilatedPoseNN-cnv6_128-segmask_all-se_flow-abs_flow-fc_tanh 05 1500000"
     echo "or"
-    echo "    ./run_estimation.sh ckpt/data_aug/v1-decay100k-sharedNN-dilatedPoseNN-cnv6_128-segmask_all-se_flow-abs_flow-fc_tanh v1-decay100k-sharedNN-dilatedPoseNN-cnv6_128-segmask_all-se_flow-abs_flow-fc_tanh 05 1500000 test-DAVO/"
+    echo "    ./run_inference.sh ckpt/v1-decay100k-sharedNN-dilatedPoseNN-cnv6_128-segmask_all-se_flow-abs_flow-fc_tanh v1-decay100k-sharedNN-dilatedPoseNN-cnv6_128-segmask_all-se_flow-abs_flow-fc_tanh 05 1500000 test-DAVO/"
 fi
 
 CKPT_FOLDER=`echo $CKPT_FOLDER | sed 's#\/$##g'`
 checkpoint=`head -n1 $CKPT_FOLDER/checkpoint | sed 's/^.*\"\([^"]\+\)\"/\1/g' | sed 's/^[^0-9]*\([0-9]\+\)/\1/g'`
 model_name=model-${step:-$checkpoint}
 save_model_name=`echo $CKPT_FOLDER | sed 's#^.*\/\(v[^/]*\)/*#\1#g'`
-output_subdir=`echo $CKPT_FOLDER | sed 's#.*ckpt\/\([^/]\+\)\/.*#\1#g'`
+#output_subdir=`echo $CKPT_FOLDER | sed 's#.*ckpt\/\([^/]\+\)\/.*#\1#g'`
 
 ckpt_file="$CKPT_FOLDER/$model_name"
-output_dir="./$TEST_FOLDER/$output_subdir/${save_model_name}--$model_name"
+output_dir="./$TEST_FOLDER/${save_model_name}--$model_name"
 
 test -f ${ckpt_file}.index || exit 1
 

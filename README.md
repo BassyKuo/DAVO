@@ -68,12 +68,12 @@ export ckpt_step="1500000"
 export output_root="test_DAVO"
 
 # Run the script to generate predicted poses of sequence ${seq_name}.
-./run_estimation.sh ${ckpt_dir} ${version} ${seq_name} ${ckpt_step} ${output_root}
+./run_inference.sh ${ckpt_dir} ${version} ${seq_name} ${ckpt_step} ${output_root}
 
 # The result would be saved in ${output_root}/${version}--model-${ckpt_step}
 ```
 
-###### :arrow_right: Download the pretrained model from our [google drive](https://drive.google.com/drive/folders/1FMx7h4ngN4T2ee1XF-64G5vdmr1BOGfi?usp=sharing) and set "pretrain-ckpt" to $ckpt_dir for quickly.
+###### :arrow_right: Download the pretrained model from our [google drive](https://drive.google.com/drive/folders/1FMx7h4ngN4T2ee1XF-64G5vdmr1BOGfi?usp=sharing) and set "pretrain-ckpt" to `$ckpt_dir` for quickly.
 
 #### Evaluation
 ```bash
