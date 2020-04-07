@@ -1,6 +1,6 @@
 ## Experimental Results
 
-![](./doc/figures/DAVO-results.png)
+![](./figures/DAVO-results.png)
 
 We evaluated DAVO and the baselines on the famous KITTI Visual Odometry and SLAM benchmark suite. 
 Similar to the baselines, DAVO and its variants are trained on sequences 00, 02, 08, 09, and 
