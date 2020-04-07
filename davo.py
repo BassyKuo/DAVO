@@ -451,27 +451,37 @@ class DAVO(object):
                         attention_map = tf.expand_dims(tf.reduce_sum(se_spp_block(seg_19[i], "se_spp_seg", ratio=1, spp_size=[8,6,4], activation=activation_fn), axis=-1), -1)
                         attention_maps.append( attention_map )
                     print (">>> [PoseNN] build SE_SPP_segmentation_attention :", attention_map)
+                elif "-se_SegFlow_to_seg_8_wo_tgt" in self.version:
+                    print (">>> [PoseNN] Transfer pred_seglabels into 19 channels", seg_19[0])
+                    for i in range(opt.seq_length):
+                        se_input = tf.concat([seg_19[i], se_input_flows[i]], axis=-1)
+                        attention_weights = se(se_input, "se_segflow", layer_channels=[8,19], mode='gp', activation=activation_fn)
+                        attention_map = tf.expand_dims(tf.reduce_sum(seg_19[i] * attention_weights , axis=-1), -1)
+                        attention_maps.append( attention_map )
+                    attention_maps[0] = tf.ones_like(attention_maps[0])
+                    print (">>> [PoseNN] build SE_segmentation + flow_attention, and multiply to only src0 and src1 segmentation (fc1:8, fc2:19):", attention_map)
                 elif "-se_SegFlow_to_seg_8" in self.version:
                     print (">>> [PoseNN] Transfer pred_seglabels into 19 channels", seg_19[0])
                     for i in range(opt.seq_length):
-                        se_inputs  = [
-                                tf.concat([seg_19[0], se_input_flows[0]], axis=-1),
-                                tf.concat([seg_19[1], se_input_flows[1]], axis=-1),
-                                tf.concat([seg_19[2], se_input_flows[2]], axis=-1)
-                                ]
-                        attention_weights = se(se_inputs[i], "se_segflow", layer_channels=[8,19], mode='gp', activation=activation_fn)
+                        se_input = tf.concat([seg_19[i], se_input_flows[i]], axis=-1)
+                        attention_weights = se(se_input, "se_segflow", layer_channels=[8,19], mode='gp', activation=activation_fn)
                         attention_map = tf.expand_dims(tf.reduce_sum(seg_19[i] * attention_weights , axis=-1), -1)
                         attention_maps.append( attention_map )
                     print (">>> [PoseNN] build SE_segmentation + flow_attention, and multiply to segmentation (fc1:8, fc2:19):", attention_map)
+                elif "-se_SegFlow_to_seg_wo_tgt" in self.version:
+                    print (">>> [PoseNN] Transfer pred_seglabels into 19 channels", seg_19[0])
+                    for i in range(opt.seq_length):
+                        se_input = tf.concat([seg_19[i], se_input_flows[i]], axis=-1)
+                        attention_weights = se(se_input, "se_segflow", layer_channels=[19,19], mode='gp', activation=activation_fn)
+                        attention_map = tf.expand_dims(tf.reduce_sum(seg_19[i] * attention_weights , axis=-1), -1)
+                        attention_maps.append( attention_map )
+                    attention_maps[0] = tf.ones_like(attention_maps[0])
+                    print (">>> [PoseNN] build SE_segmentation + flow_attention, and multiply to only src0 and src1 segmentation (fc1:19, fc2:19):", attention_map)
                 elif "-se_SegFlow_to_seg" in self.version:
                     print (">>> [PoseNN] Transfer pred_seglabels into 19 channels", seg_19[0])
                     for i in range(opt.seq_length):
-                        se_inputs  = [
-                                tf.concat([seg_19[0], se_input_flows[0]], axis=-1),
-                                tf.concat([seg_19[1], se_input_flows[1]], axis=-1),
-                                tf.concat([seg_19[2], se_input_flows[2]], axis=-1)
-                                ]
-                        attention_weights = se(se_inputs[i], "se_segflow", layer_channels=[19,19], mode='gp', activation=activation_fn)
+                        se_input = tf.concat([seg_19[i], se_input_flows[i]], axis=-1)
+                        attention_weights = se(se_input, "se_segflow", layer_channels=[19,19], mode='gp', activation=activation_fn)
                         attention_map = tf.expand_dims(tf.reduce_sum(seg_19[i] * attention_weights , axis=-1), -1)
                         attention_maps.append( attention_map )
                     print (">>> [PoseNN] build SE_segmentation + flow_attention, and multiply to segmentation (fc1:19, fc2:19):", attention_map)
@@ -1328,27 +1338,37 @@ class DAVO(object):
                         attention_map = tf.expand_dims(tf.reduce_sum(se_spp_block(seg_19[i], "se_spp_seg", ratio=1, spp_size=[8,6,4], activation=activation_fn), axis=-1), -1)
                         attention_maps.append( attention_map )
                     print (">>> [PoseNN] build SE_SPP_segmentation_attention :", attention_map)
+                elif "-se_SegFlow_to_seg_8_wo_tgt" in self.version:
+                    print (">>> [PoseNN] Transfer pred_seglabels into 19 channels", seg_19[0])
+                    for i in range(self.seq_length):
+                        se_input = tf.concat([seg_19[i], se_input_flows[i]], axis=-1)
+                        attention_weights = se(se_input, "se_segflow", layer_channels=[8,19], mode='gp', activation=activation_fn)
+                        attention_map = tf.expand_dims(tf.reduce_sum(seg_19[i] * attention_weights , axis=-1), -1)
+                        attention_maps.append( attention_map )
+                    attention_maps[0] = tf.ones_like(attention_maps[0])
+                    print (">>> [PoseNN] build SE_segmentation + flow_attention, and multiply to only src0 and src1 segmentation (fc1:8, fc2:19):", attention_map)
                 elif "-se_SegFlow_to_seg_8" in self.version:
                     print (">>> [PoseNN] Transfer pred_seglabels into 19 channels", seg_19[0])
                     for i in range(self.seq_length):
-                        se_inputs  = [
-                                tf.concat([seg_19[0], se_input_flows[0]], axis=-1),
-                                tf.concat([seg_19[1], se_input_flows[1]], axis=-1),
-                                tf.concat([seg_19[2], se_input_flows[2]], axis=-1)
-                                ]
-                        attention_weights = se(se_inputs[i], "se_segflow", layer_channels=[8,19], mode='gp', activation=activation_fn)
+                        se_input = tf.concat([seg_19[i], se_input_flows[i]], axis=-1)
+                        attention_weights = se(se_input, "se_segflow", layer_channels=[8,19], mode='gp', activation=activation_fn)
                         attention_map = tf.expand_dims(tf.reduce_sum(seg_19[i] * attention_weights , axis=-1), -1)
                         attention_maps.append( attention_map )
                     print (">>> [PoseNN] build SE_segmentation + flow_attention, and multiply to segmentation (fc1:8, fc2:19):", attention_map)
+                elif "-se_SegFlow_to_seg_wo_tgt" in self.version:
+                    print (">>> [PoseNN] Transfer pred_seglabels into 19 channels", seg_19[0])
+                    for i in range(self.seq_length):
+                        se_input = tf.concat([seg_19[i], se_input_flows[i]], axis=-1)
+                        attention_weights = se(se_input, "se_segflow", layer_channels=[19,19], mode='gp', activation=activation_fn)
+                        attention_map = tf.expand_dims(tf.reduce_sum(seg_19[i] * attention_weights , axis=-1), -1)
+                        attention_maps.append( attention_map )
+                    attention_maps[0] = tf.ones_like(attention_maps[0])
+                    print (">>> [PoseNN] build SE_segmentation + flow_attention, and multiply to only src0 and src1 segmentation (fc1:19, fc2:19):", attention_map)
                 elif "-se_SegFlow_to_seg" in self.version:
                     print (">>> [PoseNN] Transfer pred_seglabels into 19 channels", seg_19[0])
                     for i in range(self.seq_length):
-                        se_inputs  = [
-                                tf.concat([seg_19[0], se_input_flows[0]], axis=-1),
-                                tf.concat([seg_19[1], se_input_flows[1]], axis=-1),
-                                tf.concat([seg_19[2], se_input_flows[2]], axis=-1)
-                                ]
-                        attention_weights = se(se_inputs[i], "se_segflow", layer_channels=[19,19], mode='gp', activation=activation_fn)
+                        se_input = tf.concat([seg_19[i], se_input_flows[i]], axis=-1)
+                        attention_weights = se(se_input, "se_segflow", layer_channels=[19,19], mode='gp', activation=activation_fn)
                         attention_map = tf.expand_dims(tf.reduce_sum(seg_19[i] * attention_weights , axis=-1), -1)
                         attention_maps.append( attention_map )
                     print (">>> [PoseNN] build SE_segmentation + flow_attention, and multiply to segmentation (fc1:19, fc2:19):", attention_map)
