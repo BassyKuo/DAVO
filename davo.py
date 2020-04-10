@@ -1488,8 +1488,8 @@ class DAVO(object):
         self.pred_poses = pred_poses
         self.masks = {
                 'image': self.masked_images,
-                'flow': self.masked_flows,
-                'seglabel': self.masked_seglabels,
+                #'flow': self.masked_flows,
+                #'seglabel': self.masked_seglabels,
                 'attention': self.attention_maps,
                 'att_19': attention_weights
                 }

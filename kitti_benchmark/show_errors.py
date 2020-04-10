@@ -27,7 +27,7 @@ def main(args):
 
     file_name = os.path.dirname(args.err_dir + '/').split('/')[-2] + '.csv'
     titles = ["seq", "transErr", "rotErr"]
-    writer = { name:[] for name in title }
+    writer = { name:[] for name in titles }
 
     for err_file in err_files:
         seq_name = os.path.splitext(os.path.basename(err_file))[0]
