@@ -27,7 +27,6 @@ flags.DEFINE_string("concat_img_dir", None, "Preprocess image dataset directory"
 flags.DEFINE_string("output_dir", None, "Output directory")
 flags.DEFINE_string("ckpt_file", None, "checkpoint file")
 flags.DEFINE_string("version", "v1", "version")
-FLAGS = flags.FLAGS
 
 np.set_printoptions(precision=4, suppress=True)
 
@@ -73,8 +72,9 @@ def load_kitti_image_sequence_names(dataset_dir, frames, seq_length, load_pose=F
         return image_sequence_names, target_inds, image_sequence_names, flow, depth, seglabel
 
 
-def main():
+def main(_):
     # get input images
+    FLAGS = flags.FLAGS
     if not os.path.isdir(FLAGS.output_dir):
         os.makedirs(FLAGS.output_dir)
     concat_img_dir = os.path.join(FLAGS.concat_img_dir, '%.2d' % FLAGS.test_seq)
@@ -154,4 +154,4 @@ def main():
         print ("Done. Please check %s" % kitti_out_file)
 
 if __name__ == '__main__':
-    main()
+    tf.app.run()

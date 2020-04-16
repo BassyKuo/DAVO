@@ -1467,6 +1467,7 @@ class DAVO(object):
             # Visualization in tf.summary.
             self.attention_maps = [attention_map_tgt, attention_map_src0, attention_map_src1]
             self.seg_19 = seg_19
+            self.att_19 = getattr(self, "att_19s", [])
             self.masked_images  = [
                     self.input_images[0][..., :3],   # tgt_masked_images
                     self.input_images[1][..., :3],   # src0_masked_images
@@ -1488,10 +1489,8 @@ class DAVO(object):
         self.pred_poses = pred_poses
         self.masks = {
                 'image': self.masked_images,
-                #'flow': self.masked_flows,
-                #'seglabel': self.masked_seglabels,
                 'attention': self.attention_maps,
-                'att_19': attention_weights
+                #'att_19': self._att_19          # attention_weights
                 }
 
 

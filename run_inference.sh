@@ -10,7 +10,8 @@ TEST_FOLDER=${5:-"test-DAVO"}           # directory where prediction files save 
 #================================================================
 
 if [ "$#" -le 0 ] || [ "$#" -gt 6 ] ; then 
-    echo "ERROR: illegal number of parameters."
+    echo -e "\033[0;31m[ERROR]\033[0m illegal number of parameters."
+    echo "" 
     echo "[Command]"
     echo "    ./run_inference.sh <ckpt_dir> <version> <seq_name> <model_step> [<output_folder>] "
     echo ""
@@ -18,7 +19,11 @@ if [ "$#" -le 0 ] || [ "$#" -gt 6 ] ; then
     echo "    ./run_inference.sh ckpt/v1-decay100k-sharedNN-dilatedPoseNN-cnv6_128-segmask_all-se_flow-abs_flow-fc_tanh v1-decay100k-sharedNN-dilatedPoseNN-cnv6_128-segmask_all-se_flow-abs_flow-fc_tanh 05 1500000"
     echo "or"
     echo "    ./run_inference.sh ckpt/v1-decay100k-sharedNN-dilatedPoseNN-cnv6_128-segmask_all-se_flow-abs_flow-fc_tanh v1-decay100k-sharedNN-dilatedPoseNN-cnv6_128-segmask_all-se_flow-abs_flow-fc_tanh 05 1500000 test-DAVO/"
+    exit 1
 fi
+
+DATASET_DIR="./kitti_odom-dump/"
+#DATASET_DIR="./malaga_odom-dump/"
 
 CKPT_FOLDER=`echo $CKPT_FOLDER | sed 's#\/$##g'`
 checkpoint=`head -n1 $CKPT_FOLDER/checkpoint | sed 's/^.*\"\([^"]\+\)\"/\1/g' | sed 's/^[^0-9]*\([0-9]\+\)/\1/g'`
@@ -29,14 +34,21 @@ save_model_name=`echo $CKPT_FOLDER | sed 's#^.*\/\(v[^/]*\)/*#\1#g'`
 ckpt_file="$CKPT_FOLDER/$model_name"
 output_dir="./$TEST_FOLDER/${save_model_name}--$model_name"
 
-test -f ${ckpt_file}.index || exit 1
+if ! test -f ${ckpt_file}.index ; then 
+    echo -e "\033[0;31m[ERROR]\033[0m Cannot find chekcpoint file: ${ckpt_file}"
+    exit 1
+fi
 
 echo "Call $model_name >>>"
 echo "Processing ... $seq"
-python test_kitti_pose.py    --test_seq $seq \
-    --output_dir ${output_dir}/    --ckpt_file ${ckpt_file}  --seq_length 3  --concat_img_dir ./kitti_odom-dump/   --batch_size 1 --version ${version}
+python test_kitti_pose.py \
+    --concat_img_dir ${DATASET_DIR} \
+    --test_seq $seq \
+    --output_dir ${output_dir}/ \
+    --ckpt_file ${ckpt_file} \
+    --seq_length 3  \
+    --batch_size 1 \
+    --version ${version}
 
 echo "Done."
 echo "Please check ${output_dir}"
-
-#test $seq -eq 8 && python generate_eval_results.py 08 ${output_dir}
