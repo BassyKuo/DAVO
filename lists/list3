@@ -1,0 +1,2 @@
+v1-all-decay100k-sharedNN-dilatedPoseNN-cnv6_128-segmask_all-se_SegFlow_to_seg_wo_tgt-abs_flow-fc_tanh--data_aug--data_flip  1500000  DAVO-SegFlow2.0-maskRGB-aug
+v1-all-decay100k-sharedNN-dilatedPoseNN-cnv6_128-segmask_all-se_flow-abs_flow-fc_tanh--data_aug--data_flip                   1500000  DAVO-aug

@@ -1,0 +1,5 @@
+v1-all-decay100k-sharedNN-dilatedPoseNN-cnv6_128-segmask_all-se_flow-abs_flow-fc_tanh-2-fs--data_flip                     1500000  DAVO-fs-2
+v1-all-decay100k-sharedNN-dilatedPoseNN-cnv6_128-segmask_all-se_flow-abs_flow-fc_tanh-fs--data_aug--data_flip             1500000  DAVO-aug-fs
+v1-all-decay100k-sharedNN-dilatedPoseNN-cnv6_128-segmask_rgb-static-fs--data_flip                                         1500000  static_attention-maskRGB-fs
+v1-all-decay100k-sharedNN-dilatedPoseNN-cnv6_128-no_segmask-fs--data_flip                                                 1500000  no_attention-fs
+v1-all-decay100k-sharedNN-dilatedPoseNN-cnv6_128-no_segmask-fs--data_aug--data_flip                                       1500000  no_attention-aug-fs

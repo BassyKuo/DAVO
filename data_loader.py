@@ -487,7 +487,8 @@ class DataLoader(object):
 
     def format_file_list(self, data_root, split):
         all_list = {}
-        with open(data_root + '/%s.txt' % split, 'r') as f:
+        #with open(data_root + '/%s.txt' % split, 'r') as f:
+        with open(data_root + '/%s_all.txt' % split, 'r') as f:
             frames = f.readlines()
         subfolders = [x.split(' ')[0] for x in frames]
         frame_ids = [x.split(' ')[1][:-1] for x in frames]

@@ -1,0 +1,7 @@
+v1-all-decay100k-sharedNN-dilatedPoseNN-cnv6_128-no_segmask--data_aug--data_flip                            1500000  no_attention-aug
+v1-all-decay100k-sharedNN-dilatedPoseNN-cnv6_128-no_segmask--data_flip                                      1500000  no_attention
+v1-all-decay100k-sharedNN-dilatedPoseNN-cnv6_128-segmask_rgb-se_SegFlow_to_seg-abs_flow-fc_tanh--data_flip  1500000  DAVO-SegFlow-maskRGB
+v1-all-decay100k-sharedNN-dilatedPoseNN-cnv6_128-segmask_rgb-se_flow-abs_flow-fc_tanh--data_aug--data_flip  1500000  DAVO-maskRGB-aug
+v1-all-decay100k-sharedNN-dilatedPoseNN-cnv6_128-segmask_rgb-se_flow-abs_flow-fc_tanh--data_flip            1500000  DAVO-maskRGB
+v1-all-decay100k-sharedNN-dilatedPoseNN-cnv6_128-segmask_all-se_flow-abs_flow-fc_tanh--data_flip            1500000  DAVO
+v1-all-decay100k-sharedNN-dilatedPoseNN-cnv6_128-segmask_rgb-se_SegFlow_to_seg_wo_tgt-abs_flow-fc_tanh--data_flip    1500000  DAVO-SegFlow2.0-maskRGB
