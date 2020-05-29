@@ -12,7 +12,7 @@ import multiprocessing
 
 CURDIR = os.path.dirname(__file__)
 sys.path.append(os.path.abspath(os.path.join(CURDIR, '..')))
-from kitti_eval.pose_evaluation_utils import dump_pose_seq_TUM
+#from kitti_eval.pose_evaluation_utils import dump_pose_seq_TUM
 
 # Process data in chunks for reporting progress.
 NUM_CHUNKS = 100
@@ -96,11 +96,6 @@ def dump_example(n, is_training):
                 target_pose_idx = int(example['file_name'])
                 curr_times = times[target_pose_idx-half_offset : target_pose_idx+half_offset+1]
                 #dump_pose_seq_TUM(dump_eval_pose_file, poses, curr_times, False)
-            if 'match' in example:
-                matches = example['match']
-                for match in matches:
-                    for i in range(match.shape[0]):
-                        f.write(','.join([str(match[i,j]) for j in range(4)])+'\n')
 
 def main():
     if not os.path.exists(args.dump_root):

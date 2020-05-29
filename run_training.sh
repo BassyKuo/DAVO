@@ -16,12 +16,12 @@ if [ "$#" -le 0 ] || [ "$#" -gt 2 ] ; then
 fi
 
 while : ; do 
-    test -d "./ckpt/data_aug/${name}${with_data_aug}${with_data_flip}" || break
+    test -d "./ckpt/${name}${with_data_aug}${with_data_flip}" || break
     name=${version}-$i
     i=$(($i+1))
 done
 
-echo "ckpt_dir: ./ckpt/data_aug/${name}${with_data_aug}${with_data_flip}"
+echo "ckpt_dir: ./ckpt/${name}${with_data_aug}${with_data_flip}"
 python train.py \
     --dataset_dir=./kitti_odom-dump/ \
     --img_width=416 \
